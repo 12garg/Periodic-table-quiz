@@ -1,0 +1,45 @@
+const questions = [
+    { question: "What is the symbol for Oxygen?", options: ["O", "Ox", "O2", "Oh"], answer: "O" },
+    { question: "What is the atomic number of Helium?", options: ["1", "2", "4", "8"], answer: "2" },
+    { question: "Which element has the symbol 'Fe'?", options: ["Iron", "Fluorine", "Fermium", "Francium"], answer: "Iron" }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    let questionData = questions[currentQuestionIndex];
+    document.getElementById("question").innerText = questionData.question;
+    
+    let optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    
+    questionData.options.forEach(option => {
+        let btn = document.createElement("button");
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected) {
+    if (selected === questions[currentQuestionIndex].answer) {
+        score++;
+        document.getElementById("score").innerText = "Score: " + score;
+    }
+    document.getElementById("nextBtn").style.display = "block";
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+        document.getElementById("nextBtn").style.display = "none";
+    } else {
+        document.getElementById("question").innerText = "Quiz Finished!";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("nextBtn").style.display = "none";
+    }
+}
+
+window.onload = loadQuestion;
